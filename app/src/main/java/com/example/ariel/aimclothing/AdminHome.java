@@ -3,6 +3,7 @@ package com.example.ariel.aimclothing;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class AdminHome extends AppCompatActivity {
@@ -19,25 +20,25 @@ public class AdminHome extends AppCompatActivity {
         logout = (Button) findViewById(R.id.prod);
     }
 
-    public void prod(){
+    public void prod(View v){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Edit_Prods.class);
         startActivity(mainIntent);
         finish();
     }
 
-    public void hist(){
+    public void hist(View v){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Trans_Hist.class);
         startActivity(mainIntent);
         finish();
     }
 
-    public void user(){
+    public void user(View v){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Edit_User.class);
         startActivity(mainIntent);
         finish();
     }
 
-    public void logout(){
+    public void logout(View v){
         Intent mainIntent = new Intent(AdminHome.this,Login.class);
         startActivity(mainIntent);
         finish();
