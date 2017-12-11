@@ -17,14 +17,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button16"
+            android:id="@+id/Add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Add" />
 
         <Button
-            android:id="@+id/button15"
+            android:id="@+id/Edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,14 +41,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button18"
+            android:id="@+id/Remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Remove" />
 
         <Button
-            android:id="@+id/button17"
+            android:id="@+id/Ret"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -80,7 +80,7 @@
         android:layout_x="-1dp"
         android:layout_y="25dp"
         android:gravity="center"
-        android:text="Edit User Info"
+        android:text="Edit Product  Info"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20dp" />
 

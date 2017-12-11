@@ -24,32 +24,32 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/shop"
+            android:id="@+id/btnShop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Shopping"
-            android:onClick="shop"/>
+            android:onClick="shop"
+            android:text="Start Shopping" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnHist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shopping History"
-            android:onClick="history"/>
+            android:onClick="history"
+            android:text="Shopping History" />
 
         <Button
-            android:id="@+id/edit"
+            android:id="@+id/btnEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Information"
-            android:onClick="edit"/>
+            android:onClick="edit"
+            android:text="Edit Information" />
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            android:onClick="logout"/>
+            android:onClick="logout"
+            android:text="Logout" />
 
     </LinearLayout>
 </AbsoluteLayout>

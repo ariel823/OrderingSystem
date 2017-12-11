@@ -45,14 +45,14 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_x="0dp"
         android:layout_y="530dp"
+        android:gravity="center"
         android:text="Not a member yet?"
-        android:textSize="15dp"
-        android:gravity="center"/>
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/imageView"

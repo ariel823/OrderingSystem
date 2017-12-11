@@ -34,19 +34,19 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/btnProd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Products" />
+            android:text="View Products" />
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/btnUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Users" />
+            android:text="View Users" />
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout" />

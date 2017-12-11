@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements View.OnClickListener{
 
     EditText user, pass;
     Button login;
+    TextView register;
 
     String adminuser = "admin";
     String adminpass = "admin";
@@ -22,30 +24,36 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        init();
 
-        user = (EditText) findViewById(R.id.userInput);
-        pass = (EditText) findViewById(R.id.passInput);
-        login = (Button) findViewById(R.id.loginBtn);
     }
 
-    public void login(View v){
-        /*if(user.getText().toString() == adminuser && pass.getText().toString() == adminpass){
-            Intent mainIntent = new Intent(Login.this,AdminHome.class);
-            startActivity(mainIntent);
-            finish();
-        }
-        else if(user.getText().toString() == testuser && pass.getText().toString() == testpass){
-            Intent mainIntent = new Intent(Login.this,UserHome.class);
-            startActivity(mainIntent);
-            finish();
-        }
-        else{
-            Toast.makeText(getApplication(), "Sorry invalid user credentials...", Toast.LENGTH_SHORT).show();
-            user.setText("");
-            pass.setText("");
-            user.setFocusable(true);
-        }*/
+    private void init(){
+        user = (EditText) findViewById(R.id.userInput);
+        pass = (EditText) findViewById(R.id.passInput);
 
+        login = (Button) findViewById(R.id.loginBtn);
+        login.setOnClickListener(this);
+
+        register = (TextView)findViewById(R.id.tvRegister);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                register();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View view) {
+        Button b = (Button) view;
+        switch(b.getId()){
+            case R.id.loginBtn: login(); break;
+            default: break;
+        }
+    }
+
+    private void login(){
         if(user.getText().toString().equalsIgnoreCase(adminuser) && pass.getText().toString().equalsIgnoreCase(adminpass)) {
             Intent mainIntent = new Intent(Login.this, AdminHome.class);
             startActivity(mainIntent);
@@ -66,7 +74,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void register(View v){
+    private void register(){
         Intent mainIntent = new Intent(Login.this,Registration.class);
         startActivity(mainIntent);
         finish();

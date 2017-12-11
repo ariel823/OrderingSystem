@@ -27,59 +27,59 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginBottom="10dp"
+            android:ems="10"
             android:gravity="center"
-            android:textSize="20dp"
+            android:hint="Name"
             android:inputType="textPersonName"
-            android:hint="Name" />
+            android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginBottom="10dp"
+            android:ems="10"
             android:gravity="center"
-            android:textSize="20dp"
+            android:hint="Username"
             android:inputType="textPersonName"
-            android:hint="Username" />
+            android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginBottom="10dp"
+            android:ems="10"
             android:gravity="center"
-            android:textSize="20dp"
+            android:hint="Password"
             android:inputType="textPassword"
-            android:hint="Password" />
+            android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/confirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginBottom="10dp"
+            android:ems="10"
             android:gravity="center"
-            android:textSize="20dp"
+            android:hint="Repeat Password"
             android:inputType="textPassword"
-            android:hint="Repeat Password" />
+            android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/editText7"
+            android:id="@+id/contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginBottom="10dp"
+            android:ems="10"
             android:gravity="center"
-            android:textSize="20dp"
+            android:hint="Contact Number"
             android:inputType="textPersonName"
-            android:hint="Contact Number" />
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,14 +92,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Submit" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
