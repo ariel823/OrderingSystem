@@ -59,7 +59,6 @@ public class UserHome extends AppCompatActivity implements View.OnClickListener 
     public void shop(){
         Intent mainIntent = new Intent(UserHome.this,UserShop.class);
         startActivity(mainIntent);
-        finish();
     }
 
     public void hist(){

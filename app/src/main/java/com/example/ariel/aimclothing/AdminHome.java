@@ -5,7 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.example.ariel.aimclothing.library.DBTools;
 
 public class AdminHome extends AppCompatActivity {
 
@@ -17,9 +18,16 @@ public class AdminHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
 
-        db = new DBTools(this);
+        db= new DBTools(this);
+
 
         prod = (Button) findViewById(R.id.btnProd);
+        prod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prod();
+            }
+        });
 
         user = (Button) findViewById(R.id.btnUsers);
         user.setOnClickListener(new View.OnClickListener() {
@@ -33,23 +41,18 @@ public class AdminHome extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(AdminHome.this,Login.class);
-                startActivity(mainIntent);
-                finish();
+                logout();
             }
         });
 
-
-
     }
 
-    public void prod(View v){
+    public void prod(){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Edit_Prods.class);
         startActivity(mainIntent);
-        finish();
     }
 
-    public void hist(View v){
+    public void hist(){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Trans_Hist.class);
         startActivity(mainIntent);
         finish();
@@ -57,6 +60,11 @@ public class AdminHome extends AppCompatActivity {
 
     public void user(){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Edit_User.class);
+        startActivity(mainIntent);
+    }
+
+    public void logout(){
+        Intent mainIntent = new Intent(AdminHome.this,Login.class);
         startActivity(mainIntent);
         finish();
     }

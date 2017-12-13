@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ariel.aimclothing.R;
-import com.example.ariel.aimclothing.User;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -21,13 +19,13 @@ import java.util.List;
  * Created by Ian on 12/12/2017.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
 
     private List<User> listItem;
     private Context context;
 
-    public RecyclerAdapter(List<User> listItem, Context mContext){
+    public UserAdapter(List<User> listItem, Context mContext){
         this.listItem = listItem;
         this.context = mContext;
     }
@@ -47,6 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.tvUsername.setText(users.getUsername());
         holder.tvPassword.setText(users.getPassword());
         holder.tvContact.setText(users.getContactNo());
+        holder.ivUser.setImageResource(R.drawable.usericon);
         holder.tvOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +85,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public TextView tvPassword;
         public TextView tvContact;
         public TextView tvOption;
+        public ImageView ivUser;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -94,9 +94,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tvPassword = (TextView) itemView.findViewById(R.id.tvPassword);
             tvContact = (TextView) itemView.findViewById(R.id.tvContact);
             tvOption = (TextView) itemView.findViewById(R.id.tvOption);
-
-
+            ivUser = (ImageView) itemView.findViewById(R.id.ivUser);
         }
+
 
 
     }

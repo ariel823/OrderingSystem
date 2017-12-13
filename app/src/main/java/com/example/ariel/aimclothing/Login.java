@@ -9,11 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ariel.aimclothing.library.DBTools;
+
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
     EditText user, pass;
     Button login;
     TextView register;
+
+    DBTools myDb;
 
     String adminuser = "admin";
     String adminpass = "admin";
@@ -57,13 +61,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         if(user.getText().toString().equalsIgnoreCase(adminuser) && pass.getText().toString().equalsIgnoreCase(adminpass)) {
             Intent mainIntent = new Intent(Login.this, AdminHome.class);
             startActivity(mainIntent);
-            finish();
         }
 
         else if(user.getText().toString().equalsIgnoreCase(testuser)&& pass.getText().toString().equalsIgnoreCase(testpass)){
             Intent mainIntent = new Intent(Login.this,UserHome.class);
             startActivity(mainIntent);
-            finish();
         }
 
         else{
@@ -77,6 +79,5 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private void register(){
         Intent mainIntent = new Intent(Login.this,Registration.class);
         startActivity(mainIntent);
-        finish();
     }
 }

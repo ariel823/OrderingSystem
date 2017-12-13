@@ -1,6 +1,5 @@
 package com.example.ariel.aimclothing;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ariel.aimclothing.library.DBTools;
+import com.example.ariel.aimclothing.library.User;
 
 public class Registration extends AppCompatActivity implements View.OnClickListener {
 
@@ -103,6 +105,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         if(result!=-1){
             Log.d(TAG,"Data inserted: \n" + registeredUser);
             startActivity(new Intent(Registration.this, UserHome.class));
+            finish();
         } else {
             Log.e(TAG,"Error inserting data");
         }
