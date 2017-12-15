@@ -1,15 +1,20 @@
-package com.example.ariel.aimclothing;
+package com.example.ariel.aimclothing.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ariel.aimclothing.R;
 
 public class UserHome extends AppCompatActivity implements View.OnClickListener {
 
     Button shop, edit, logout, hist;
+    TextView tvName;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +26,25 @@ public class UserHome extends AppCompatActivity implements View.OnClickListener 
     }
 
     public void init(){
+
+        extras = getIntent().getExtras();
+
         shop = (Button) findViewById(R.id.btnShop);
         shop.setOnClickListener(this);
-
-        hist = (Button) findViewById(R.id.btnHist);
-        hist.setOnClickListener(this);
-
-        edit = (Button) findViewById(R.id.btnEdit);
-        edit.setOnClickListener(this);
+//
+//        hist = (Button) findViewById(R.id.btnHist);
+//        hist.setOnClickListener(this);
 
         logout = (Button) findViewById(R.id.btnLogout);
         logout.setOnClickListener(this);
+
+        tvName = (TextView) findViewById(R.id.tvName);
+
+        if(extras!=null){
+            tvName.setText(extras.getString("name"));
+        } else{
+            tvName.setText("User!");
+        }
     }
 
     @Override
@@ -45,12 +58,6 @@ public class UserHome extends AppCompatActivity implements View.OnClickListener 
             case R.id.btnShop:
                 shop();
                 break;
-            case R.id.btnHist:
-                hist();
-                break;
-            case R.id.btnEdit:
-                edit();
-                break;
             default:
                 break;
         }
@@ -61,11 +68,6 @@ public class UserHome extends AppCompatActivity implements View.OnClickListener 
         startActivity(mainIntent);
     }
 
-    public void hist(){
-        Intent mainIntent = new Intent(UserHome.this,User_shop_hist.class);
-        startActivity(mainIntent);
-        finish();
-    }
 
     public void edit(){
         Toast.makeText(getApplicationContext(), "UserInfo: \n", Toast.LENGTH_SHORT).show();

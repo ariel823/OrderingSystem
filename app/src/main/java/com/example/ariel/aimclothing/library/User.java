@@ -11,8 +11,17 @@ public class User {
 
     private String username;
     private String password;
-    private String contactNo;
     private String name;
+    private int userType;
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
     private String dateRegistered;
 
     public String getDateRegistered() {
@@ -27,11 +36,11 @@ public class User {
         setDateRegistered();
     }
 
-    public User(String name, String username, String password, String contactNo) {
+    public User(String name, String username, String password, int userType) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.contactNo = contactNo;
+        this.userType = userType;
         setDateRegistered();
     }
 
@@ -59,14 +68,6 @@ public class User {
         this.password = password;
     }
 
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
-
     public void setDateRegistered() {
 
         Date date = new Date();
@@ -75,14 +76,12 @@ public class User {
 
     }
 
-
-
     @Override
     public String toString() {
         return "Name: " + name +
                 "\nUsername: " + username +
                 "\nPassword: " + password +
-                "\nContact: " + contactNo +
+                "\nUser_Type: " + userType +
                 "\nDate Registered: " + dateRegistered +"\n\n";
 
     }

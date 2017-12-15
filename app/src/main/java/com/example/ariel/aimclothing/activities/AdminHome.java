@@ -1,25 +1,34 @@
-package com.example.ariel.aimclothing;
+package com.example.ariel.aimclothing.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.ariel.aimclothing.R;
 import com.example.ariel.aimclothing.library.DBTools;
 
 public class AdminHome extends AppCompatActivity {
 
     Button prod, user, logout;
+    TextView tvName;
     DBTools db;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
+        init();
+
+    }
+
+    private void init(){
+        extras = getIntent().getExtras();
 
         db= new DBTools(this);
-
 
         prod = (Button) findViewById(R.id.btnProd);
         prod.setOnClickListener(new View.OnClickListener() {
@@ -45,17 +54,19 @@ public class AdminHome extends AppCompatActivity {
             }
         });
 
+        tvName = (TextView) findViewById(R.id.tvName);
+
+        if(extras!=null){
+            tvName.setText(extras.getString("name") + "(Admin)");
+        } else{
+            tvName.setText("Administrator");
+        }
+
     }
 
     public void prod(){
         Intent mainIntent = new Intent(AdminHome.this,Admin_Edit_Prods.class);
         startActivity(mainIntent);
-    }
-
-    public void hist(){
-        Intent mainIntent = new Intent(AdminHome.this,Admin_Trans_Hist.class);
-        startActivity(mainIntent);
-        finish();
     }
 
     public void user(){

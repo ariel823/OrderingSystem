@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    tools:context="com.example.ariel.aimclothing.Admin_Edit_User">
+    tools:context="com.example.ariel.aimclothing.activities.Admin_Edit_User">
 
     <TextView
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/btnAdd"
+            android:id="@+id/btnAddProduct"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginEnd="9dp"

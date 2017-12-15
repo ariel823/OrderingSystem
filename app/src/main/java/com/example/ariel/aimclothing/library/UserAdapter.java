@@ -24,10 +24,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     private List<User> listItem;
     private Context context;
+    private DBTools db;
 
     public UserAdapter(List<User> listItem, Context mContext){
         this.listItem = listItem;
         this.context = mContext;
+        db = new DBTools(context);
     }
 
     @Override
@@ -40,11 +42,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        final User users = listItem.get(position);
-        holder.tvFullName.setText(users.getName());
-        holder.tvUsername.setText(users.getUsername());
-        holder.tvPassword.setText(users.getPassword());
-        holder.tvContact.setText(users.getContactNo());
+        final User user = listItem.get(position);
+        holder.tvFullName.setText(user.getName());
+        holder.tvUsername.setText(user.getUsername());
+        holder.tvPassword.setText(user.getPassword());
         holder.ivUser.setImageResource(R.drawable.usericon);
         holder.tvOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +58,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
                         switch(item.getItemId()){
                             case R.id.menu_item_delete:
-                                Toast.makeText(context, "Deleted: " + users.getName(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Deleted: " + user.getName(), Toast.LENGTH_SHORT).show();
+                                db.deleteUser(user.getUsername());
                                 listItem.remove(position);
                                 notifyDataSetChanged();
                                 break;

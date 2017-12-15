@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.ariel.aimclothing.R;
-import com.example.ariel.aimclothing.library.Product;
-import com.example.ariel.aimclothing.library.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class DBTools extends SQLiteOpenHelper {
     //database info
     private static final String TAG = "AimStore";
     private static final String DATABASE_NAME = "aimstore.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
 
     //table names
     private static final String TABLE_USER = "tbl_user";
@@ -43,7 +41,6 @@ public class DBTools extends SQLiteOpenHelper {
     private static final String KEY_FULLNAME = "FULLNAME";
     private static final String KEY_USERNAME = "USERNAME";
     private static final String KEY_PASSWORD = "PASSWORD";
-    private static final String KEY_CONTACT = "CONTACT";
     private static final String KEY_USERTYPE = "TYPE";
 
     //Column: Product table
@@ -72,13 +69,12 @@ public class DBTools extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_USERS = String.format(
             "CREATE TABLE %s (" +
             "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "%s TEXT, " +
-            "%s TEXT, " +
-            "%s TEXT, " +
-            "%s TEXT, " +
-            "%s TEXT, " +
-            "%s DATETIME)",
-            TABLE_USER, KEY_ID, KEY_FULLNAME, KEY_USERNAME, KEY_PASSWORD, KEY_CONTACT, KEY_USERTYPE, KEY_CREATED_AT);
+            "%s TEXT, " +       //KEY_FULLNAME
+            "%s TEXT, " +       //KEY_USERNAME
+            "%s TEXT, " +       //KEY_PASS
+            "%s INTEGER, " +    //KEY_USERTYPE
+            "%s DATETIME)",     //KEY_CREATED_AT
+            TABLE_USER, KEY_ID, KEY_FULLNAME, KEY_USERNAME, KEY_PASSWORD, KEY_USERTYPE, KEY_CREATED_AT);
 
     //PRODUCT TABLE create
     private static final String CREATE_TABLE_PRODUCT = String.format(
@@ -133,6 +129,7 @@ public class DBTools extends SQLiteOpenHelper {
         insertCategoryData(db);
         insertBrandData(db);
         insertDefaultProducts(db);
+        insertUserData(db);
         Log.d(TAG, "Initializing tables and default records");
     }
 
@@ -149,8 +146,8 @@ public class DBTools extends SQLiteOpenHelper {
 
     /************************* INSERT METHODS **********************/
 
-    //Register User
-    //Program will return -1 if the insertion of data is failed
+//    Register User
+//    Program will return -1 if the insertion of data is failed
     public long registerUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -158,12 +155,24 @@ public class DBTools extends SQLiteOpenHelper {
         values.put(KEY_FULLNAME, user.getName());
         values.put(KEY_USERNAME, user.getUsername());
         values.put(KEY_PASSWORD, user.getPassword());
-        values.put(KEY_CONTACT, user.getContactNo());
+        values.put(KEY_USERTYPE, user.getUserType());
         values.put(KEY_CREATED_AT, getDateTime());
 
         long result = db.insert(TABLE_USER, null, values);
         Log.d(TAG, "Value of database result(User) is : " + result);
         return result;
+    }
+
+    public void deleteUser(String user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM tbl_user WHERE USERNAME = '" + user + "'";
+        db.execSQL(query);
+    }
+
+    public void deleteProduct(String product){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_PRODUCT +" WHERE " + KEY_PROD_NAME + " = '" + product + "'";
+        db.execSQL(query);
     }
 
 //    Add products method
@@ -184,25 +193,44 @@ public class DBTools extends SQLiteOpenHelper {
     }
 
 
-//    Return all the user data in the db
-//    Cursor will move to the next record until the last record
-//    Program will return a list
+
     public List<User> getUserList(){
         List<User> userList = new ArrayList<User>();
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_USER;
+        String query = "SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERTYPE + " = 1";
         Log.e(TAG,query);
 
         Cursor res = db.rawQuery(query, null);
-
         while(res.moveToNext()){
             User user = new User();
             user.setName(res.getString(res.getColumnIndex(KEY_FULLNAME)));
             user.setUsername(res.getString(res.getColumnIndex(KEY_USERNAME)));
             user.setPassword(res.getString(res.getColumnIndex(KEY_PASSWORD)));
+            user.setUserType(1);
             user.setDateRegistered(res.getString(res.getColumnIndex(KEY_CREATED_AT)));
-            user.setContactNo(res.getString(res.getColumnIndex(KEY_CONTACT)));
+            userList.add(user);
+            Log.d(TAG, user.toString());
+        }
+
+        return userList;
+    }
+
+    public List<User> getAdminList(){
+        List<User> userList = new ArrayList<User>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERTYPE + " = 2";
+        Log.e(TAG,query);
+
+        Cursor res = db.rawQuery(query, null);
+        while(res.moveToNext()){
+            User user = new User();
+            user.setName(res.getString(res.getColumnIndex(KEY_FULLNAME)));
+            user.setUsername(res.getString(res.getColumnIndex(KEY_USERNAME)));
+            user.setPassword(res.getString(res.getColumnIndex(KEY_PASSWORD)));
+            user.setUserType(2);
+            user.setDateRegistered(res.getString(res.getColumnIndex(KEY_CREATED_AT)));
             userList.add(user);
             Log.d(TAG, user.toString());
         }
@@ -234,8 +262,134 @@ public class DBTools extends SQLiteOpenHelper {
         return prodList;
     }
 
+    public List<Product> getCpuList(){
+        List<Product> prodList = new ArrayList<Product>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_PRODUCT  +
+                " WHERE " + KEY_CATEGORY_ID + " = 3 " +
+                "OR " + KEY_CATEGORY_ID + " = 5 " +
+                "OR " + KEY_CATEGORY_ID + " = 6 " +
+                "OR " + KEY_CATEGORY_ID + " = 7 ";
+        Log.e(TAG,query);
+
+        Cursor res = db.rawQuery(query, null);
+        while(res.moveToNext()){
+            Product prod = new Product();
+            prod.setProduct_name(res.getString(res.getColumnIndex(KEY_PROD_NAME)));
+            prod.setPrice(Double.parseDouble(res.getString((res.getColumnIndex(KEY_PRICE)))));
+            prod.setBrand(Integer.parseInt(res.getString(res.getColumnIndex(KEY_BRAND_ID))));
+            prod.setCategory(Integer.parseInt(res.getString(res.getColumnIndex(KEY_CATEGORY_ID))));
+            prodList.add(prod);
+            Log.d(TAG, prod.toString());
+        }
+
+        return prodList;
+    }
+
+    public List<Product> getAccessoriesList(){
+        List<Product> prodList = new ArrayList<Product>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_PRODUCT  +
+                " WHERE " + KEY_CATEGORY_ID + " = 1 " +
+                "OR " + KEY_CATEGORY_ID + " = 2 " +
+                "OR " + KEY_CATEGORY_ID + " = 8 ";
+        Log.e(TAG,query);
+
+        Cursor res = db.rawQuery(query, null);
+        while(res.moveToNext()){
+            Product prod = new Product();
+            prod.setProduct_name(res.getString(res.getColumnIndex(KEY_PROD_NAME)));
+            prod.setPrice(Double.parseDouble(res.getString((res.getColumnIndex(KEY_PRICE)))));
+            prod.setBrand(Integer.parseInt(res.getString(res.getColumnIndex(KEY_BRAND_ID))));
+            prod.setCategory(Integer.parseInt(res.getString(res.getColumnIndex(KEY_CATEGORY_ID))));
+            prodList.add(prod);
+            Log.d(TAG, prod.toString());
+        }
+
+        return prodList;
+    }
+
+    public List<Product> getMonitorList(){
+        List<Product> prodList = new ArrayList<Product>();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_PRODUCT  + " WHERE " + KEY_CATEGORY_ID + " = 4";
+        Log.e(TAG,query);
+
+        Cursor res = db.rawQuery(query, null);
+        while(res.moveToNext()){
+            Product prod = new Product();
+            prod.setProduct_name(res.getString(res.getColumnIndex(KEY_PROD_NAME)));
+            prod.setPrice(Double.parseDouble(res.getString((res.getColumnIndex(KEY_PRICE)))));
+            prod.setBrand(Integer.parseInt(res.getString(res.getColumnIndex(KEY_BRAND_ID))));
+            prod.setCategory(Integer.parseInt(res.getString(res.getColumnIndex(KEY_CATEGORY_ID))));
+            prodList.add(prod);
+            Log.d(TAG, prod.toString());
+        }
+
+        return prodList;
+    }
 
 
+    public String getUserFullName(String username){
+        String fullname = "";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERNAME + " = '" + username + "'";
+        Log.e(TAG,query);
+
+        Cursor res = db.rawQuery(query, null);
+        while(res.moveToNext()){
+            fullname = res.getString(res.getColumnIndex(KEY_FULLNAME));
+        }
+
+        return fullname;
+    }
+
+
+
+
+//    IF THERE IS NO RECORD
+//    ROW COUNT IN CURSOR WILL RETURN 0
+    public int checkCredentials(String username, String password){
+        String dbusername = "";
+        String dbpassword = "";
+        int db_usertype = -1;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERNAME + " = '" + username + "'";
+        Log.e(TAG,query);
+
+        Cursor res = db.rawQuery(query, null);
+        if(res.getCount()==0){
+            return -1;
+        }
+
+        else{
+            while(res.moveToNext()){
+                dbusername = res.getString(res.getColumnIndex(KEY_USERNAME));
+                dbpassword = res.getString(res.getColumnIndex(KEY_PASSWORD));
+                db_usertype = Integer.parseInt(res.getString(res.getColumnIndex(KEY_USERTYPE)));
+            }
+        }
+
+        if(username.equalsIgnoreCase(dbusername) && password.equalsIgnoreCase(dbpassword)) {
+            return db_usertype;
+        }
+        else if(username.equalsIgnoreCase(dbusername) && !password.equalsIgnoreCase(dbpassword)){
+            return 3;
+        } else if(!username.equalsIgnoreCase(dbusername)){
+            return -1;
+        }
+
+        return -1;
+    }
+
+
+//    Return brand image base from the brand id
+//    data will be coming from brand table
     public int getImageResource(int brand_id){
         int resourceId = 0;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -253,6 +407,29 @@ public class DBTools extends SQLiteOpenHelper {
 
 
 
+    /**
+     *
+     *
+     * INSERTION OF DEFAULT VALUES IN THE DATABASE
+     * DEFAULT USERS
+     * DEFAULT PRODUCT
+     * DEFAULT CATEGORY
+     * DEFAULT BRAND
+     *
+     *
+     */
+
+    public void insertUserData(SQLiteDatabase db){
+        String query =
+                String.format(
+                        "INSERT INTO %s (%s, %s, %s, %s, %s, %s) " +
+                        "VALUES(1, 'Administrator', 'admin', 'admin', 2, '" +getDateTime() + "')",
+                        TABLE_USER, KEY_ID, KEY_FULLNAME, KEY_USERNAME, KEY_PASSWORD, KEY_USERTYPE, KEY_CREATED_AT
+                );
+        Log.w(TAG, query);
+        db.execSQL(query);
+    }
+
     public void insertCategoryData(SQLiteDatabase db){
         String query =
                 "INSERT INTO tbl_category (ID, CATEGORY_NAME) " +
@@ -262,61 +439,68 @@ public class DBTools extends SQLiteOpenHelper {
                 "(4, 'Monitor'), " +
                 "(5, 'Motherboard')," +
                 "(6,'Memory')," +
-                "(7,'Video Card')";
-        db.execSQL(query);
-        Log.w(TAG, "Default category data inserted");
-    }
-
-    public void insertBrandData(SQLiteDatabase db){
-        String query =
-                "INSERT INTO tbl_brand (ID, BRAND_NAME, BRAND_IMAGE) " +
-                "VALUES(0, 'Default', '" + R.drawable.no_image + "'), " +
-                "(1, 'Amd', '" + R.drawable.amd + "'), " +
-                "(2, 'Asus', '" + R.drawable.asus + "'), " +
-                "(3, 'Intel', '" + R.drawable.intel + "'), " +
-                "(4, 'Logitech', '" + R.drawable.logitech + "'), " +
-                "(5, 'MSI', '" + R.drawable.msi + "'), " +
-                "(6,'Samsung', '" + R.drawable.samsung + "'), " +
-                "(7,'A4Tech', '" + R.drawable.a4tech + "')";
-        db.execSQL(query);
-
-        Log.w(TAG, "Default brand data inserted");
-    }
-
-
-    public void insertDefaultProducts(SQLiteDatabase db){
-        String query = String.format(
-                "INSERT INTO %s (%s, %s, %s, %s, %s)",
-                TABLE_PRODUCT, KEY_ID, KEY_CATEGORY_ID, KEY_BRAND_ID, KEY_PROD_NAME, KEY_PRICE) +
-                "VALUES" +
-                "(1, 3, 3, 'Core i3 4170', '6100'), " +
-                "(2, 3, 3, 'Core i5 4460', '9720'), " +
-                "(3, 3, 3, 'Core i7 6700', '16200'), " +
-                "(4, 3, 3, 'Core i7 6700k', '16500'),  " +
-                "(5, 3, 1, 'A4-6300' , '1300'), " +
-                "(6, 3, 1, 'A4-7300' , '1780'), " +
-                "(7, 3, 1, 'A6-6400' , '2110'), " +
-                "(8, 3, 1, 'A8-7600' , '3350')";
-
-
+                "(7, 'Video Card')," +
+                "(8, 'Accessories')";
         Log.w(TAG, query);
         db.execSQL(query);
 
     }
 
-    public String checkCategories(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_CATEGORY;
-        Cursor res = db.rawQuery(query, null);
-        StringBuffer string = new StringBuffer();
+    public void insertBrandData(SQLiteDatabase db){
+        String query =
+                "INSERT INTO tbl_brand (ID, BRAND_NAME, BRAND_IMAGE) " +
+                "VALUES " +
+                "(1, 'Amd', '" + R.drawable.amd + "'), " +
+                "(2, 'Asus', '" + R.drawable.asus + "'), " +
+                "(3, 'Intel', '" + R.drawable.intel + "'), " +
+                "(4, 'Logitech', '" + R.drawable.logitech + "'), " +
+                "(5, 'MSI', '" + R.drawable.msi + "'), " +
+                "(6, 'Samsung', '" + R.drawable.samsung + "'), " +
+                "(7, 'A4Tech', '" + R.drawable.a4tech + "'), " +
+                "(8, 'Others', '" + + R.drawable.no_image + "')";
 
-        while (res.moveToNext()) {
-            string.append("ID: " + res.getString(res.getColumnIndex(KEY_ID)) + "\n");
-            string.append("category_name: " + res.getString(res.getColumnIndex(KEY_CATEGORY_NAME)) + "\n\n");
-        }
+        Log.w(TAG, query);
+        db.execSQL(query);
 
-        Log.d(TAG, string.toString());
-        return string.toString();
+
+    }
+
+    public void insertDefaultProducts(SQLiteDatabase db){
+        String query = String.format(
+                "INSERT INTO %s (%s, %s, %s, %s)",
+                TABLE_PRODUCT, KEY_CATEGORY_ID, KEY_BRAND_ID, KEY_PROD_NAME, KEY_PRICE) +
+                "VALUES" +
+                //CPU
+                "(3, 3, 'Core i3 4170', '6100'), " +
+                "(3, 3, 'Core i5 4460', '9720'), " +
+                "(3, 3, 'Core i7 6700', '16200'), " +
+                "(3, 1, 'A4-7300' , '1780'), " +
+                "(3, 1, 'A6-6400' , '2110'), " +
+                "(3, 1, 'A8-7600' , '3350'), " +
+                "(5, 7, 'RX570 Gaming RGB 4GB', '16420'),  " +
+                "(5, 7, 'RX580 Armor OC 8GB' , '17010'), " +
+                "(5, 7, 'GTX1060 GamingX OC' , '19440'), " +
+
+                //Accessories
+                "(1, 7, 'TK-5 USB', '320'),  " +
+                "(1, 4, 'K100' , '260'), " +
+                "(1, 4, 'N2500' , '1780'), " +
+                "(2, 7, 'OP-320D USB' , '210'), " +
+                "(2, 7, 'V5', '1030'),  " +
+                "(2, 4, 'V7' , '1070'), " +
+                "(2, 7, 'OP-320D USB' , '210'), " +
+                "(2, 7, 'V5', '1030'),  " +
+                "(2, 4, 'V7' , '1070'), " +
+
+                //Monitors
+                "(4, 6, '18.5\" F350', '4700'),  " +
+                "(4, 6, '18.5\" ER10 HDMI' , '4860'), " +
+                "(4, 6, '20\" S20C150' , '5080');";
+
+
+        Log.w(TAG, query);
+        db.execSQL(query);
+
     }
 
     private String getDateTime() {

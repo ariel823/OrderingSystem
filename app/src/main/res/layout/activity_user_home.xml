@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ariel.aimclothing.UserHome">
+    android:orientation="vertical"
+    android:layout_marginTop="50dp"
+    tools:context="com.example.ariel.aimclothing.activities.UserHome">
 
     <ImageView
         android:id="@+id/imageView2"
+        android:layout_gravity="center"
         android:layout_width="165dp"
         android:layout_height="129dp"
-        android:layout_x="111dp"
-        android:layout_y="52dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+
+        app:srcCompat="@drawable/usericon" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Welcome!"
+        android:textSize="24dp"
+        />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="Ian Santiago"
+        android:textSize="30dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="206dp"
-        android:layout_x="0dp"
-        android:layout_y="236dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="vertical">
+        android:paddingRight="20dp">
 
         <Button
             android:id="@+id/btnShop"
@@ -30,19 +49,12 @@
             android:onClick="shop"
             android:text="Start Shopping" />
 
-        <Button
-            android:id="@+id/btnHist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="history"
-            android:text="Shopping History" />
-
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="edit"
-            android:text="Edit Information" />
+        <!--<Button-->
+        <!--android:id="@+id/btnHist"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="history"-->
+        <!--android:text="Shopping History" />-->
 
         <Button
             android:id="@+id/btnLogout"
@@ -52,4 +64,4 @@
             android:text="Logout" />
 
     </LinearLayout>
-</AbsoluteLayout>
+</LinearLayout>

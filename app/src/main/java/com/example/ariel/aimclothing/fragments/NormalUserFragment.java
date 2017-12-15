@@ -1,64 +1,84 @@
-package com.example.ariel.aimclothing;
+package com.example.ariel.aimclothing.fragments;
+
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ariel.aimclothing.activities.AdminHome;
+import com.example.ariel.aimclothing.R;
 import com.example.ariel.aimclothing.library.DBTools;
-import com.example.ariel.aimclothing.library.UserAdapter;
 import com.example.ariel.aimclothing.library.User;
-
-import org.w3c.dom.Text;
+import com.example.ariel.aimclothing.library.UserAdapter;
 
 import java.util.List;
 
-public class Admin_Edit_User extends AppCompatActivity {
+
+public class NormalUserFragment extends Fragment {
 
     private String TAG = "AIMStore";
-    private RecyclerView recyclerView;
-    private UserAdapter mAdapter;
-    private List<User> listItem;
 
-    private CardView btnBack;
-    private CardView btnAddUser;
+
+
+    //Dialog ui
+    TextView tvClose;
+    EditText etFullname, etUsername, etPassword;
+    CardView btnCancel, btnConfirm;
+    TextInputLayout ilName, ilUsername, ilPass;
+
 
     private DBTools db;
     Dialog dialog;
 
-    //Dialog ui
-    TextView tvClose;
-    EditText etFullname, etUsername, etPassword, etContact;
-    CardView btnCancel, btnConfirm;
-    TextInputLayout ilName, ilUsername, ilPass, ilContact;
+    private View rootView;
+    private RecyclerView recyclerView;
+    private UserAdapter mAdapter;
+    private List<User> listItem;
+
+    private Context context;
+    private CardView btnBack;
+    private CardView btnAddUser;
+
+
+
+    public NormalUserFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin__edit__user);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        rootView = inflater.inflate(R.layout.fragment_user, container, false);
+        context = getContext();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-
-        db = new DBTools(this);
+        db = new DBTools(context);
         listItem = db.getUserList();
 
-        mAdapter = new UserAdapter(listItem, this);
+        mAdapter = new UserAdapter(listItem, context);
         recyclerView.setAdapter(mAdapter);
 
-        btnBack = (CardView)findViewById(R.id.btnBack);
+        //buttons
+        btnBack = rootView.findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +86,9 @@ public class Admin_Edit_User extends AppCompatActivity {
             }
         });
 
-        btnAddUser = (CardView)findViewById(R.id.btnAddUser);
+
+
+        btnAddUser = rootView.findViewById(R.id.btnAdd2);
         btnAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,42 +96,33 @@ public class Admin_Edit_User extends AppCompatActivity {
             }
         });
 
+        return rootView;
     }
 
-    private void updateUI(){
-        db = new DBTools(this);
-        listItem = db.getUserList();
 
-        mAdapter = new UserAdapter(listItem, this);
+
+    private void backToMenu(){
+        getActivity().finish();
+    }
+
+
+    public void updateUI(){
+        listItem = db.getUserList();
+        mAdapter = new UserAdapter(listItem, context);
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void backToMenu(){
-        startActivity(new Intent(Admin_Edit_User.this, AdminHome.class));
-        finish();
-    }
 
     private void addUser(){
-        dialog  = new Dialog(this);
+        dialog  = new Dialog(context);
         dialog.setContentView(R.layout.dialog_user);
 
         etFullname = dialog.findViewById(R.id.etFullname);
         etUsername = dialog.findViewById(R.id.etUsername);
         etPassword = dialog.findViewById(R.id.etPassword);
-        etContact = dialog.findViewById(R.id.etContact);
         ilName = dialog.findViewById(R.id.inputLayoutName);
         ilUsername = dialog.findViewById(R.id.inputLayoutUName);
         ilPass = dialog.findViewById(R.id.inputLayoutPassword);
-        ilContact = dialog.findViewById(R.id.inputLayoutContact);
-
-        btnCancel = dialog.findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
 
         btnConfirm = dialog.findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +131,6 @@ public class Admin_Edit_User extends AppCompatActivity {
                 submitUser();
             }
         });
-
 
         tvClose = dialog.findViewById(R.id.tvClose);
         tvClose.setOnClickListener(new View.OnClickListener() {
@@ -145,25 +157,29 @@ public class Admin_Edit_User extends AppCompatActivity {
             return;
         }
 
-        if(!validateContact()){
-            return;
-        }
 
         final String sName = etFullname.getText().toString().trim();
         final String username = etUsername.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
-        final String cont = etContact.getText().toString().trim();
+
 
         User user = new User();
         user.setName(sName);
         user.setUsername(username);
         user.setPassword(password);
-        user.setContactNo(cont);
+        user.setUserType(1);
+
+        int i = db.checkCredentials(username, password);
+        if (i != -1){
+            ilUsername.setError("Username exist!");
+            return;
+        }
+
 
         long result = db.registerUser(user);
         if(result!=-1){
             Log.d(TAG,"Data inserted: \n" + user);
-            Toast.makeText(this, "User added successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "User added successfully!", Toast.LENGTH_SHORT).show();
             updateUI();
             dialog.dismiss();
         } else {
@@ -171,6 +187,7 @@ public class Admin_Edit_User extends AppCompatActivity {
         }
 
     }
+
 
     private boolean validateName(){
         final String sName = etFullname.getText().toString().trim();
@@ -201,18 +218,6 @@ public class Admin_Edit_User extends AppCompatActivity {
         if(password.isEmpty()){
             ilPass.setError("Enter required field!");
             etPassword.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean validateContact(){
-        final String cont = etContact.getText().toString().trim();
-
-        if(cont.isEmpty()){
-            ilContact.setError("Enter required field!");
-            etContact.requestFocus();
             return false;
         }
 

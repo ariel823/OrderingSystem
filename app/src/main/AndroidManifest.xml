@@ -4,32 +4,31 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/app_logo"
+        android:label="AIM Express"
+        android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".Login" />
-        <activity android:name=".Registration" />
-        <activity android:name=".UserHome" />
-        <activity android:name=".UserShop">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".User_Upper_Shop" />
-        <activity android:name=".User_Lower_Shop" />
-        <activity android:name=".User_Accessories_Shop" />
-        <activity android:name=".User_Cart_Shop" />
-        <activity android:name=".User_Payment" />
-        <activity android:name=".AdminHome" />
-        <activity android:name=".Admin_Edit_Prods" />
-        <activity android:name=".Admin_Edit_User" />
-        <activity android:name=".Admin_Trans_Hist" />
-        <activity android:name=".User_shop_hist"></activity>
+        <activity android:name=".activities.Login">
+
+        </activity>
+        <activity android:name=".activities.Registration" />
+        <activity android:name=".activities.UserHome" />
+        <activity android:name=".activities.UserShop"
+            >
+
+        </activity>
+        <activity android:name=".activities.AdminHome" />
+        <activity android:name=".activities.Admin_Edit_Prods" />
+        <activity android:name=".activities.Admin_Edit_User" />
+        <activity android:name=".activities.CartActivity"></activity>
     </application>
 
 </manifest>

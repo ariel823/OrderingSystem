@@ -3,4 +3,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- settings preferences -->
+    <string name="key_name">key_fullname</string>
+    <string name="key_username">key_username</string>
+    <string name="key_password">key_password</string>
+    <string name="key_contact">key_contact</string>
+
+    <string name="key_type">key_type</string>
+    <string name="default_name">Ian Santiago</string>
+
+
 </resources>

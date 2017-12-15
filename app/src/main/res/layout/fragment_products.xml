@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        tools:context="com.example.ariel.aimclothing.Admin_Edit_User">
+        tools:context="com.example.ariel.aimclothing.activities.Admin_Edit_User">
 
 
         <android.support.v7.widget.RecyclerView

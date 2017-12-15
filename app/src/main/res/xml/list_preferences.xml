@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Account information">
+        <EditTextPreference
+            android:key="@string/key_name"
+            android:title="Full Name"
+            android:summary="View Full Name"
+            android:defaultValue="@string/default_name"
+            />
+        <EditTextPreference
+            android:key="@string/key_username"
+            android:title="Username"
+            android:summary="Change username"
+            android:defaultValue="@string/default_name"
+            />
+        <EditTextPreference
+            android:key="@string/key_password"
+            android:title="Password"
+            android:summary="Change password"
+            android:inputType="textPassword"
+            android:defaultValue="@string/default_name"
+            />
+        <EditTextPreference
+            android:key="@string/key_contact"
+            android:title="Contact"
+            android:summary="Change contact number"
+            android:inputType="number"
+            android:defaultValue="@string/default_name"
+            />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_type"
+            android:title="Set as Administrator"
+            />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

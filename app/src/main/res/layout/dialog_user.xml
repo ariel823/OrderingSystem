@@ -19,14 +19,16 @@
         android:textColor="@color/colorPrimary"
         android:id="@+id/tvClose"
         />
+
     <TextView
+        android:id="@+id/tvLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:text="NEW USER"
-        android:textSize="32dp"
         android:textAlignment="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textSize="28dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="90dp"
@@ -84,41 +86,25 @@
             android:singleLine="true"
             />
     </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/inputLayoutContact"
-        android:layout_gravity="center_horizontal"
-        >
-        <EditText
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="Contact"
-            android:id="@+id/etContact"
-            android:inputType="number"
-            android:singleLine="true"
-            />
-    </android.support.design.widget.TextInputLayout>
-
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:layout_marginBottom="50dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_height="match_parent">
         <android.support.v7.widget.CardView
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:id="@+id/btnConfirm"
             app:cardCornerRadius="15dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
             app:cardBackgroundColor="@color/colorPrimary"
-            android:layout_height="30dp">
+            android:layout_height="40dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -127,25 +113,6 @@
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:text="CONFIRM"/>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="120dp"
-            app:cardCornerRadius="15dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            android:id="@+id/btnCancel"
-            android:layout_height="30dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:text="CANCEL"/>
 
         </android.support.v7.widget.CardView>
     </LinearLayout>
